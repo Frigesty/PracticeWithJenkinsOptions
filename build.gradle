@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+}
+
+group = "ru.frigesty"
+version = "1.0"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:7.5.1",
+            "org.junit.jupiter:junit-jupiter:5.11.2",
+            "org.slf4j:slf4j-simple:2.0.7",
+            "com.github.javafaker:javafaker:1.0.2",
+            'io.qameta.allure:allure-selenide:2.27.0'
+    )
+}
+
+allure {
+    report {
+        version.set("2.19.0")
+    }
+    adapter {
+        aspectjVersion.set("1.9.22")// отвечает за появление папочки build/allure-results
+        aspectjWeaver.set(true) //обработка аннотации @Step
+        frameworks {
+            junit5 { //название фреймворка
+                adapterVersion.set("2.19.0") //версия интеграции фреймворка и Allure
+            }
+        }
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+}
+
+task simple_test(type: Test) {
+    useJUnitPlatform{
+        includeTags("simple")
+    }
+}
