@@ -13,23 +13,27 @@ import ru.frigesty.halpers.Attach;
 import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static java.lang.String.format;
 
 public class TestBase {
 
     @BeforeAll
     static void beforeAll() {
+        String wdHost = System.getProperty("wd", "selenoid.autotests.cloud");
+        String getWdHost = format("https://user1:1234@%s/wd/hub", wdHost);
+        String[] browser = System.getProperty("browser").split(":");
 
-
-        Configuration.browserSize = "1920x1080";
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
+        Configuration.pageLoadStrategy = System.getProperty("loadStrategy", "eager");
+        Configuration.baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
+        Configuration.remote = getWdHost;
+        Configuration.browserCapabilities = capabilities;
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
                 "enableVideo", true
         ));
-        Configuration.browserCapabilities = capabilities;
+
     }
     @BeforeEach
     void addListener(){

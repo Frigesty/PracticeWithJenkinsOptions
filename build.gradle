@@ -36,17 +36,14 @@ allure {
 }
 
 tasks.withType(Test) {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
     testLogging {
         lifecycle {
             events "started", "skipped", "failed", "standard_error", "standard_out"
             exceptionFormat "short"
         }
     }
-}
-
-test {
-    useJUnitPlatform()
-    systemProperties(System.getProperties())
 }
 
 task simple_test(type: Test) {
