@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.frigesty.halpers.Attach;
 import java.util.Map;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
 import static java.lang.String.format;
 
 public class TestBase {
@@ -37,6 +38,7 @@ public class TestBase {
     @BeforeEach
     void addListener(){
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        open(Configuration.baseUrl);
     }
 
     @AfterEach
@@ -48,7 +50,7 @@ public class TestBase {
     }
 
     @AfterAll
-    static void tearDownWebDriver() {
+    public static void tearDownWebDriver() {
         closeWebDriver();
     }
 }
