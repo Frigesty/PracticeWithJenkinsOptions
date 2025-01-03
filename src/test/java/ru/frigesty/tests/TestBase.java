@@ -48,7 +48,7 @@ public class TestBase {
     }
 
     @AfterAll
-    public static void tearDownWebDriver() {
+    static void tearDownWebDriver() {
         closeWebDriver();
     }
 }
