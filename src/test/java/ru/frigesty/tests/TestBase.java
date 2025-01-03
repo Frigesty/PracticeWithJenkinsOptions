@@ -9,16 +9,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.frigesty.halpers.Attach;
-
 import java.util.Map;
-
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static java.lang.String.format;
 
 public class TestBase {
 
     @BeforeAll
-    static void beforeAll() {
+    static void setUpBrowserConfiguration() {
         String wdHost = System.getProperty("wd", "selenoid.autotests.cloud");
         String getWdHost = format("https://user1:1234@%s/wd/hub", wdHost);
         String[] browser = System.getProperty("browser").split(":");
@@ -35,6 +33,7 @@ public class TestBase {
         ));
 
     }
+
     @BeforeEach
     void addListener(){
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
@@ -49,7 +48,7 @@ public class TestBase {
     }
 
     @AfterAll
-    public static void afterAll() {
+    public static void tearDownWebDriver() {
         closeWebDriver();
     }
 }

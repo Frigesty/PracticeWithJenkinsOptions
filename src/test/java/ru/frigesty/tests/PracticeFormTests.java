@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.frigesty.pages.RegistrationPage;
 import ru.frigesty.utils.TestDataGenerator;
-
 import static io.qameta.allure.Allure.step;
 
 public class PracticeFormTests extends TestBase {

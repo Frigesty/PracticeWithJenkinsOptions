@@ -1,7 +1,6 @@
 package ru.frigesty.utils;
 
 import com.github.javafaker.Faker;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Map;
