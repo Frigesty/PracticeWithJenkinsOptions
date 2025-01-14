@@ -42,10 +42,10 @@ public class TestBase {
     @AfterEach
     void addAttachments() {
         Attach.screenshotAs("Last screenshot");
-        Attach.browserConsoleLogs();
         Attach.addVideo();
         if (!System.getProperty("browser").equalsIgnoreCase("firefox")) {
             Attach.pageSource();
+            Attach.browserConsoleLogs();
         }
     }
 
