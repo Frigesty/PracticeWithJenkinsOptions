@@ -11,18 +11,17 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.frigesty.halpers.Attach;
 import java.util.Map;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
-import static com.codeborne.selenide.Selenide.open;
 import static java.lang.String.format;
 
 public class TestBase {
 
     @BeforeAll
     static void setUpBrowserConfiguration() {
-        String wdHost = System.getProperty("wd", "selenoid.autotests.cloud");
-        String getWdHost = format("https://user1:1234@%s/wd/hub", wdHost);
-        String[] browser = System.getProperty("browser").split(":");
+        String getWdHost = format("https://user1:1234@%s/wd/hub", System.getProperty("wd", "selenoid.autotests.cloud"));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        Configuration.browser = System.getProperty("browser");
+        Configuration.browserVersion = System.getProperty("browserVersion");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.pageLoadStrategy = System.getProperty("loadStrategy", "eager");
         Configuration.baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
@@ -43,9 +42,11 @@ public class TestBase {
     @AfterEach
     void addAttachments() {
         Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
         Attach.browserConsoleLogs();
         Attach.addVideo();
+        if (!System.getProperty("browser").equalsIgnoreCase("firefox")) {
+            Attach.pageSource();
+        }
     }
 
     @AfterAll
